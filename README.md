@@ -1,281 +1,271 @@
+Thought for a couple of seconds
+
+
 ```markdown
 # The Trading Post
 
-**The Trading Post** is a full-stack, mobile-first marketplace app for **buying new items, selling old/resale goods, and bartering** with neighbors — all in one place. It’s built with React + Vite on the frontend, Flask + Python on the backend, and features interactive maps, chat, wallet, PWA support, and gamified reputation.
+**A cross-platform bartering & marketplace app with rich gamification**  
+Users can buy, sell, barter and socialize via chat & map, earn XP, streaks, quests, badges, and even host personal “shops” like modern MySpace storefronts.
 
 ---
 
-## 🚀 Features
+## Table of Contents
 
-- **Multi-modal listings**: sell new products, resale/secondhand items, or trade/barter without cash  
-- **Hyper-local map**: Mapbox-powered pins, clustering, filters, custom Mapbox Studio theme, geocoder search  
-- **In-app chat**: secure messaging to negotiate trades or sales  
-- **User profiles & ratings**: identity verification, peer reviews, badges, “Verified Trader” status  
-- **Gamification**: spirit animal quiz, badges, progress tracker, token rewards, referral system  
-- **Community & forum**: post topics, reply threads, report abuse, admin moderation  
-- **Events & meetups**: calendar of swap-meets, RSVP, midpoint meetup suggestions  
-- **Wallet & payments**: internal token wallet, crypto balance, Stripe-ready hooks  
-- **Admin dashboard**: site stats, user/trade moderation, review report handling  
-- **Yearly “Trading Wrapped”**: personalized year-in-review summary  
-- **Dark Mode & PWA**: tailwind-based theming, splash screen, offline fallback, mobile nav
-
----
-
-## 🛠 Tech Stack
-
-- **Frontend**: React 18, Vite, Tailwind CSS, Mapbox GL JS, Heroicons  
-- **Backend**: Flask, Flask-CORS, SQLAlchemy, Gunicorn  
-- **Database**: SQLite (dev), PostgreSQL or MySQL (prod)  
-- **Deployment**: Netlify (frontend), Render (backend)  
-- **CI/CD**: GitHub Actions (optional)  
+1. [Features](#features)  
+2. [Tech Stack](#tech-stack)  
+3. [Prerequisites](#prerequisites)  
+4. [Project Structure](#project-structure)  
+5. [Backend Setup (Flask / Python)](#backend-setup-flask--python)  
+   1. [Environment Variables](#environment-variables)  
+   2. [Virtual Environment & Dependencies](#virtual-environment--dependencies)  
+   3. [Database & Seeding](#database--seeding)  
+   4. [Running the Server](#running-the-server)  
+   5. [API Overview](#api-overview)  
+6. [Frontend Setup (React Native / TypeScript)](#frontend-setup-react-native--typescript)  
+   1. [Install & Start](#install--start)  
+   2. [Expo & Device Testing](#expo--device-testing)  
+7. [Testing & Linting](#testing--linting)  
+8. [Deployment](#deployment)  
+9. [Contributing](#contributing)  
+10. [License](#license)  
 
 ---
 
-## 📁 Repository Structure
+## Features
+
+- **Core Marketplace**: Listings, chat, map-based search & clustering  
+- **Barter & Currency**: Real money via Stripe, internal tokens, or barter-only  
+- **User Shops**: Personal storefront (name, slug, theme, logo, banner, items)  
+- **Gamification**: XP & levels, daily login streaks, daily/weekly quests  
+- **Badges & Achievements**: Earned badges, progress tracker, printable certificates  
+- **Social & Community**: Follow traders, leaderboards, forums, events & meetups  
+- **Wallet & Crypto**: Token dashboard, optional crypto balances  
+- **Offline & PWA**: Offline caching, custom fallback, splash screen, dark mode  
+- **Notifications**: Push/email on messages, offers, quest refresh  
+
+---
+
+## Tech Stack
+
+- **Backend**: Python 3.10+, Flask, SQLAlchemy, Flask-JWT-Extended, Alembic (optional), Stripe  
+- **Frontend**: React Native (Expo), TypeScript, React Navigation, Context + Hooks  
+- **DB**: SQLite (dev) or PostgreSQL (prod)  
+- **Notifications**: Expo Notifications, AsyncStorage  
+- **Maps**: Mapbox GL  
+
+---
+
+## Prerequisites
+
+- **Node.js** ≥16 & **Yarn** (or npm)  
+- **Python** ≥3.10  
+- **Expo CLI** (`npm install -g expo-cli`)  
+- (Optional) Xcode / Android Studio for simulators  
+- Git  
+
+---
+
+## Project Structure
 
 ```
-the-trading-post/
-├── README.md
-├── .gitignore
-│
-├── frontend/
-│   ├── index.html
-│   ├── package.json
-│   ├── vite.config.js
-│   ├── .env                   # VITE_MAPBOX_TOKEN
-│   ├── public/
-│   │   ├── favicon.svg
-│   │   ├── logo192.png
-│   │   ├── logo512.png
-│   │   └── manifest.json
-│   └── src/
-│       ├── index.js
-│       ├── App.jsx
-│       ├── routes.jsx
-│       ├── index.css
-│       ├── styles/
-│       │   ├── globals.css
-│       │   ├── animations.css
-│       │   └── tailwind-theme.css
-│       ├── assets/
-│       │   ├── logo.png
-│       │   └── bg-stars.svg
-│       ├── components/
-│       │   ├── Header.jsx
-│       │   ├── Footer.jsx
-│       │   ├── SplashScreen.jsx
-│       │   ├── MobileNavBar.jsx
-│       │   └── DarkModeToggle.jsx
-│       ├── Auth/
-│       │   ├── LoginForm.jsx
-│       │   └── RegisterForm.jsx
-│       ├── Marketplace/
-│       │   ├── ListingCard.jsx
-│       │   ├── FiltersBar.jsx
-│       │   ├── InventoryTab.jsx
-│       │   └── ItemDetails.jsx
-│       ├── Map/
-│       │   ├── TradeMap.jsx
-│       │   ├── MapFilters.jsx
-│       │   ├── PopupOverlay.jsx
-│       │   ├── ClusterLogic.jsx
-│       │   ├── MapTooltip.jsx
-│       │   └── mapTheme.json
-│       ├── Chat/
-│       │   ├── ChatRoom.jsx
-│       │   └── MessageBubble.jsx
-│       ├── Profile/
-│       │   ├── EditProfile.jsx
-│       │   ├── PublicProfile.jsx
-│       │   └── SpiritAnimalQuiz.jsx
-│       ├── Events/
-│       │   ├── EventCalendar.jsx
-│       │   ├── CreateEventForm.jsx
-│       │   └── MeetupSuggest.jsx
-│       ├── Wallet/
-│       │   └── WalletDashboard.jsx
-│       ├── Forum/
-│       │   ├── CommunityBoard.jsx
-│       │   ├── PostDetail.jsx
-│       │   └── NewPostForm.jsx
-│       ├── Badges/
-│       │   ├── BadgeGallery.jsx
-│       │   └── BadgeProgress.jsx
-│       ├── Admin/
-│       │   ├── Dashboard.jsx
-│       │   └── ReviewReports.jsx
-│       └── Wrapped/
-│           └── TradingWrapped.jsx
-│
-└── backend/
-    ├── requirements.txt
-    ├── Procfile
-    ├── .env                   # FLASK_ENV=production
-    ├── server/
-    │   └── app.py
-    ├── database/
-    │   └── seed.py
-    ├── routes/
-    │   ├── auth.py
-    │   ├── admin.py
-    │   ├── chat.py
-    │   ├── events.py
-    │   ├── forum.py
-    │   ├── items.py
-    │   ├── map.py             # GET /api/map/pins
-    │   ├── marketplace.py
-    │   ├── profile.py
-    │   ├── qr.py
-    │   ├── referrals.py
-    │   ├── follow.py
-    │   ├── wrapped.py
-    │   └── wallet.py
-    ├── models/
-    │   ├── user.py
-    │   ├── item.py
-    │   ├── trade_history.py
-    │   ├── badges.py
-    │   ├── chat.py
-    │   ├── event.py
-    │   ├── meetup.py
-    │   ├── referral.py
-    │   ├── forum.py
-    │   ├── reports.py
-    │   ├── wallet.py
-    │   ├── spirit_animal.py
-    │   └── trade_wrapped.py
-    └── utils/
-        ├── badge_logic.py
-        ├── email_sender.py
-        ├── map_helpers.py
-        └── qr_generator.py
-```
+
+trading-post/
+├── backend/                  # Flask API
+│   ├── .env                  # env vars (SECRET\_KEY, DATABASE\_URL, STRIPE\_KEY…)
+│   ├── run.py                # Flask entrypoint
+│   ├── server/
+│   │   ├── app.py            # Flask app + DB init
+│   │   └── config.py         # Config classes
+│   ├── database/
+│   │   ├── seed.py           # Seed sample data
+│   │   └── migrations/       # Alembic migrations (if used)
+│   ├── models/               # SQLAlchemy models
+│   │   ├── user.py
+│   │   ├── item.py
+│   │   ├── shop.py           # NEW: user shop metadata
+│   │   ├── shop\_item.py      # NEW: shop↔item mapping
+│   │   ├── xp\_transaction.py
+│   │   ├── streak.py
+│   │   ├── quest.py
+│   │   └── user\_quest.py
+│   ├── routes/               # Blueprint endpoints
+│   │   ├── auth.py
+│   │   ├── items.py
+│   │   ├── shop.py           # NEW: shop CRUD
+│   │   ├── shop\_items.py     # NEW: shop‐item CRUD
+│   │   ├── xp.py
+│   │   ├── streaks.py
+│   │   └── quests.py
+│   └── utils/
+│       ├── xp\_calculator.py
+│       ├── streak\_logic.py
+│       ├── shop\_helpers.py   # NEW: slug generation, themes
+│       └── …other helpers…
+└── trading-post-mobile/      # React Native app
+├── App.tsx
+├── babel.config.js
+├── tsconfig.json
+├── package.json
+├── assets/
+│   └── bg-stars.json
+└── src/
+├── components/       # Reusable UI: XPBar, StreakTracker, QuestCard…
+├── context/          # Auth, XP, Streak, Quests, Theme, Socket
+├── hooks/            # useAuth, useXP, useStreak, useQuests…
+├── screens/          # Login, Home, Map, Chat, Quests, Storefront…
+├── navigation/       # React Navigation stacks & tabs
+├── services/         # api.ts + authService, xpService, streakService…
+├── theme/            # colors.ts, spacing.ts, typography.ts, radii.ts, shadows.ts
+├── styles/           # global.ts, components.ts
+└── utils/            # geolocation, notification, offlineCache…
+
+````
 
 ---
 
-## 🔧 Prerequisites
+## Backend Setup (Flask / Python)
 
-- **Node.js & npm**  
-  Install from https://nodejs.org/  
-- **Python 3.8+ & pip**  
-  Install from https://python.org/  
-- **Git** (optional, for cloning)
+### Environment Variables
 
----
+Copy `.env.example → .env` and fill in:
 
-## ⚙️ Environment Variables
+```ini
+SECRET_KEY=supersecret
+JWT_SECRET_KEY=jwtsecret
+DATABASE_URL=sqlite:///data.db    # or postgres://user:pass@host/db
+STRIPE_API_KEY=sk_test_...
+MAPBOX_TOKEN=pk.XXXX
+EMAIL_HOST=smtp.mailtrap.io
+EMAIL_USER=...
+EMAIL_PASS=...
+````
 
-Create **`frontend/.env`**:
-```txt
-VITE_MAPBOX_TOKEN=your_mapbox_token_here
-```
-
-Create **`backend/.env`**:
-```txt
-FLASK_ENV=production
-```
-
----
-
-## 🏗️ Setup & Installation
-
-### 1. Clone the repo
-```bash
-git clone https://github.com/yourusername/the-trading-post.git
-cd the-trading-post
-```
-
----
-
-### 2. Frontend
+### Virtual Environment & Dependencies
 
 ```bash
-cd frontend
-npm install
-```
-
-- **Run in development**  
-  ```bash
-  npm run dev
-  ```
-  Visit `http://localhost:5173`
-
----
-
-### 3. Backend
-
-```bash
-cd ../backend
-python -m venv venv
-# Activate:
-# Windows:
-venv\Scripts\activate
-# macOS/Linux:
-source venv/bin/activate
-
+cd backend
+python3 -m venv .venv
+source .venv/bin/activate       # Windows: .venv\Scripts\Activate.ps1
+pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
-- **Seed the database**  
-  ```bash
-  python database/seed.py
-  ```
+### Database & Seeding
 
-- **Run server**  
-  ```bash
-  python server/app.py
-  ```
-  Visit `http://localhost:5000` and test `GET /api/map/pins`
+```bash
+# (Optional) Run Alembic migrations
+alembic upgrade head
 
----
+# Seed sample data
+python database/seed.py
+```
 
-## 🔗 Connecting Frontend & Backend
+### Running the Server
 
-- In development, frontend uses `http://localhost:5000` for API calls.
-- Update fetch URLs or set up a proxy in `vite.config.js` if desired.
+```bash
+python run.py
+```
 
----
-
-## ☁️ Deployment
-
-### Frontend → Netlify
-1. Push `frontend/` to GitHub  
-2. On Netlify: **Import from Git** → build command `npm run build`, publish `dist`  
-3. Add `VITE_MAPBOX_TOKEN` in Site Settings → Env Variables
-
-### Backend → Render
-1. Push `backend/` to GitHub  
-2. On Render: **New Web Service** → select repo  
-3. Build command: _none_; Start command: `gunicorn server.app:app`  
-4. Set `FLASK_ENV=production` in Env
+The API will listen on **[http://localhost:5000](http://localhost:5000)**.
 
 ---
 
-## 📖 Usage
+### API Overview
 
-- **Sign up** or **Login**  
-- **Browse** or **search** by location, category, new/resale/barter  
-- **List** item for sale (new/resale) or barter  
-- **Chat** in-app to negotiate  
-- **Earn** tokens, badges, referrals  
-- **Attend** community events & swap meets  
-- **Track** wallet balance & trade history  
-- **Admin** section for moderation & analytics
+* **Auth**
+
+  * `POST /api/auth/register`
+  * `POST /api/auth/login`
+* **Users & Profiles**
+
+  * `GET/PUT /api/profile`
+* **Items & Marketplace**
+
+  * `GET /api/items`, `POST /api/items`, etc.
+* **Shops**
+
+  * `GET /api/shop/me` – your storefront
+  * `GET /api/shop/<slug>` – public shop
+  * `POST /api/shop` / `PUT /api/shop` – create/update
+  * `GET /api/shop_items/<shop_id>` – list items
+  * `POST/PUT/DELETE /api/shop_items` – manage items
+* **Gamification**
+
+  * `GET /api/xp`, `POST /api/xp/add`
+  * `GET /api/streaks`, `POST /api/streaks/login`
+  * `GET /api/quests`, `POST /api/quests/<id>/complete`, `POST /api/quests/refresh`
+* **Other**: chat, events, forums, referrals, wallet, QR, notifications, etc.
 
 ---
 
-## 🤝 Contributing
+## Frontend Setup (React Native / TypeScript)
 
-1. Fork & clone  
-2. Create feature branch  
-3. Make changes & add tests  
-4. Submit PR for review
+### Install & Start
+
+```bash
+cd trading-post-mobile
+yarn install      # or npm install
+expo start
+```
+
+* **i** opens iOS Simulator
+* **a** opens Android Emulator
+* Scan the QR code with **Expo Go** on a real device
+
+### Code Quality & Formatting
+
+Add to `.vscode/settings.json`:
+
+```jsonc
+{
+  "editor.formatOnSave": true,
+  "eslint.validate": ["javascript", "typescript", "typescriptreact"],
+  "prettier.requireConfig": true
+}
+```
+
+Make sure you’ve installed:
+
+* ESLint & Prettier extensions
+* React Native Tools (optional)
 
 ---
 
-## 📝 License
+## Testing & Linting
 
-MIT © [NANNINGA SOFTWARE]
+* **Backend**: add pytest tests in `backend/tests/`, run `pytest`
+* **Frontend**: add Jest tests, run `yarn test`
+* Both: `yarn lint` / `npm run lint`
+
+---
+
+## Deployment
+
+* **Backend**:
+
+  * Heroku / DigitalOcean / AWS Elastic Beanstalk
+  * Set your `.env` vars in the platform’s dashboard
+
+* **Frontend**:
+
+  * Expo builds via `expo build:ios` / `expo build:android`
+  * Or publish PWA with `expo build:web`
+  * Host web on Netlify / Vercel
+
+---
+
+## Contributing
+
+1. Fork the repo & create a feature branch
+2. Install deps & run tests locally
+3. Submit PR with clear description & tests
+4. We’ll review & merge!
+
+---
+
+## License
+
+MIT © \[Your Name / Your Organization]
 
 ---
 
