@@ -29,7 +29,7 @@ try:
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     db = SQLAlchemy(app)
 except Exception as e:
-    print(f"[FATAL] Database initialization failed: {e}")
+    print(f"Database initialization failed: {e}")
     db = None
 
 # -----------------------------------------------------------------------------
@@ -114,3 +114,8 @@ if __name__ == '__main__':
     port = int(os.getenv('PORT', 5000))
     app.run(host='0.0.0.0', port=port, debug=is_debug)
 
+
+required_vars = ['SECRET_KEY', 'JWT_SECRET_KEY', 'DATABASE_URL']
+for var in required_vars:
+    if not os.getenv(var):
+        raise EnvironmentError(f"Required environment variable {var} is not set.")
