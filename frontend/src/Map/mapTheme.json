@@ -1,0 +1,31 @@
+{
+    "version": 8,
+    "name": "TradingPost Light Theme",
+    "sources": {
+      "raster-tiles": {
+        "type": "raster",
+        "tiles": [
+          "https://a.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        ],
+        "tileSize": 256
+      }
+    },
+    "glyphs": "mapbox://fonts/mapbox/{fontstack}/{range}.pbf",
+    "layers": [
+      {
+        "id": "background",
+        "type": "background",
+        "paint": {
+          "background-color": "#ffffff"
+        }
+      },
+      {
+        "id": "raster-tiles",
+        "type": "raster",
+        "source": "raster-tiles",
+        "minzoom": 0,
+        "maxzoom": 22
+      }
+    ]
+  }
+  
