@@ -1,0 +1,54 @@
+/* styles/tailwind-theme.css */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Theme Custom Properties ───────────────────────────── */
+:root {
+  --color-primary: #007bff;
+  --color-secondary: #6c757d;
+  --color-accent: #6610f2;
+  --color-bg: #f9f9f9;
+  --color-text: #222;
+  --radius-base: 0.5rem;
+  --shadow-soft: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.dark {
+  --color-bg: #121212;
+  --color-text: #eee;
+  --color-primary: #339;
+  --color-secondary: #444;
+}
+
+/* ─── Custom Utilities ──────────────────────────────────── */
+@layer utilities {
+  .text-primary {
+    color: var(--color-primary);
+  }
+
+  .bg-primary {
+    background-color: var(--color-primary);
+  }
+
+  .bg-secondary {
+    background-color: var(--color-secondary);
+  }
+
+  .rounded-base {
+    border-radius: var(--radius-base);
+  }
+
+  .shadow-soft {
+    box-shadow: var(--shadow-soft);
+  }
+
+  .text-accent {
+    color: var(--color-accent);
+  }
+
+  .bg-accent {
+    background-color: var(--color-accent);
+  }
+}
