@@ -1,4 +1,4 @@
-// trading-post-mobile/src/App.tsx
+// frontend/App.tsx
 
 import 'react-native-gesture-handler';
 import React, { useEffect } from 'react';
@@ -12,7 +12,6 @@ import { QuestsProvider } from './context/QuestsContext';
 import { ThemeProvider } from './context/ThemeContext';
 import { SocketProvider } from './context/SocketContext';
 
-// Suppress non-critical warnings
 LogBox.ignoreLogs([
   'Setting a timer',
   'AsyncStorage has been extracted from react-native core',
@@ -20,24 +19,19 @@ LogBox.ignoreLogs([
 
 const App: React.FC = () => {
   useEffect(() => {
-    // Register for push notifications
     registerForPushNotificationsAsync()
       .then(token => {
         if (token) {
           console.log('Push token:', token);
-          // TODO: send token to backend tied to authenticated user
         }
       })
       .catch(err => console.warn('Push registration failed', err));
 
-    // Listeners for incoming notifications
     const receivedSub = addNotificationReceivedListener(notification => {
       console.log('Notification received in foreground:', notification);
-      // TODO: handle in-app notification UI
     });
     const responseSub = addNotificationResponseReceivedListener(response => {
       console.log('Notification action response:', response);
-      // TODO: navigate or perform action based on response.notification.request.content.data
     });
 
     return () => {
