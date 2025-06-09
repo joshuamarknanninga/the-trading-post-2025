@@ -1,9 +1,7 @@
 // frontend/src/App.tsx
 
-import 'react-native-gesture-handler';
 import React, { useEffect } from 'react';
-import { LogBox } from 'react-native';
-
+import { LogBox, Platform } from 'react-native';
 import {
   registerForPushNotificationsAsync,
   addNotificationReceivedListener,
@@ -19,7 +17,6 @@ import { QuestsProvider } from './context/QuestsContext';
 import { ThemeProvider } from './context/ThemeContext';
 import { SocketProvider } from './context/SocketContext';
 
-// Suppress non-critical warnings
 LogBox.ignoreLogs([
   'Setting a timer',
   'AsyncStorage has been extracted from react-native core',
@@ -29,18 +26,16 @@ const App: React.FC = () => {
   useEffect(() => {
     registerForPushNotificationsAsync()
       .then(token => {
-        if (token) {
-          console.log('Push token:', token);
-        }
+        if (token) console.log('Push token:', token);
       })
       .catch(err => console.warn('Push registration failed', err));
 
     const receivedSub = addNotificationReceivedListener(notification => {
-      console.log('Notification received:', notification);
+      console.log('Notification received in foreground:', notification);
     });
 
     const responseSub = addNotificationResponseReceivedListener(response => {
-      console.log('Notification response:', response);
+      console.log('Notification action response:', response);
     });
 
     return () => {
