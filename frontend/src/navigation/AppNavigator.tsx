@@ -1,19 +1,23 @@
-// frontend/src/navigation/AppNavigator.tsx
+// src/navigation/AppNavigator.tsx
+
 import React from 'react';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import HomeScreen from '../screens/MobileHome'; // adjust to actual component
-import ProfileScreen from '../screens/MobileProfile'; // adjust as needed
 
-const Stack = createStackNavigator();
+import MobileHome from '../screens/MobileHome';
+import MobileProfile from '../screens/MobileProfile';
 
-const AppNavigator: React.FC = () => (
-  <NavigationContainer>
-    <Stack.Navigator>
-      <Stack.Screen name="Home" component={HomeScreen} />
-      <Stack.Screen name="Profile" component={ProfileScreen} />
-    </Stack.Navigator>
-  </NavigationContainer>
-);
+const Tab = createBottomTabNavigator();
+
+const AppNavigator: React.FC = () => {
+  return (
+    <NavigationContainer>
+      <Tab.Navigator>
+        <Tab.Screen name="Home" component={MobileHome} />
+        <Tab.Screen name="Profile" component={MobileProfile} />
+      </Tab.Navigator>
+    </NavigationContainer>
+  );
+};
 
 export default AppNavigator;
