@@ -1,4 +1,4 @@
-v// trading-post-mobile/src/services/streakService.ts
+// trading-post-mobile/src/services/streakService.ts
 
 import api from './api';
 
