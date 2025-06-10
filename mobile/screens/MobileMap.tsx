@@ -3,7 +3,7 @@
 import React, { useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
 import MapboxGL from '@rnmapbox/maps';
-import useGeolocation from '../hooks/useGeolocation';
+import useGeolocation from '../../frontend/src/hooks/useGeolocation';
 
 MapboxGL.setAccessToken('YOUR_MAPBOX_ACCESS_TOKEN');
 
