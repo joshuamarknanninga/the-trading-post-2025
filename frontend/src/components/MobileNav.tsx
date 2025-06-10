@@ -5,10 +5,10 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 
-import MobileHome from '../screens/MobileHome';
-import MobileMap from '../screens/MobileMap';
-import MobileWallet from '../screens/MobileWallet';
-import MobileProfile from '../screens/MobileProfile';
+import MobileHome from '../../../mobile/screens/MobileHome';
+import MobileMap from '../../../mobile/screens/MobileMap';
+import MobileWallet from '../../../mobile/screens/MobileWallet';
+import MobileProfile from '../../../mobile/screens/MobileProfile';
 
 const Tab = createBottomTabNavigator();
 
